@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:petzone/Screens/welcome_screen.dart';
 import 'package:petzone/bloc/forgot_password/forgot_bloc.dart';
@@ -29,15 +30,14 @@ import 'bloc/lost_and_found/lost_and_found_list_bloc.dart';
 import 'bloc/organization_register_bloc/org_reg_bloc.dart';
 import 'bloc/registerList/register_request_bloc.dart';
 import 'bloc/registerProfile/register_profile_bloc.dart';
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+  await Firebase.initializeApp();
+  print('Handling a background message ${message.messageId}');
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-// Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-//   // If you're going to use other Firebase services in the background, such as Firestore,
-//   // make sure you call `initializeApp` before using other Firebase services.
-//   await Firebase.initializeApp();
-//   print('Handling a background message ${message.messageId}');
-//   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-//
-// }
+}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -78,7 +78,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'PetZone',
-        debugShowCheckedModeBanner: false ,
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(),
         home: FutureBuilder(
           future: fbApp,
@@ -87,7 +87,7 @@ class MyApp extends StatelessWidget {
               print("An error has occured ${snapshot.error.toString()}");
               return const Text("Something went wrong");
             } else if (snapshot.hasData) {
-              return WelcomeScreen();
+              return  WelcomeScreen();
             } else {
               return const Center(child: CircularProgressIndicator());
             }
