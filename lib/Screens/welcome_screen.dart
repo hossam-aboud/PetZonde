@@ -65,22 +65,23 @@ class WelcomeScreen extends StatelessWidget {
                   ),
                   SizedBox(height: size.height * 0.05),
                   Container(
-                      alignment: Alignment.center,
-                      margin:
-                          EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-                      child: CustomButton(
-                          text: 'Login',
-                          textSize: 20,
-                          textColor: Colors.white,
-                          color: PrimaryButton,
-                          size: Size(size.width * 0.8, 55),
-                          pressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        const LoginScreen()));
-                          })),
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+                    child: CustomButton(
+                      text: 'Login',
+                      textSize: 20,
+                      textColor: Colors.white,
+                      color: PrimaryButton,
+                      size: Size(size.width * 0.8, 55),
+                      pressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    const LoginScreen()));
+                      },
+                    ),
+                  ),
                   Container(
                     alignment: Alignment.center,
                     margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
