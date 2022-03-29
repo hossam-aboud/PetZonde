@@ -987,11 +987,11 @@ class PetsListPageState extends State<ProfilePet> {
   }
   bool validate()
   {
-    if(widget.pet!.breed=="")
+    if(widget.pet.breed=="")
     {
       return false;
     }
-    if(widget.pet!.name.length<5||widget.pet.name.length==0)
+    if(widget.pet.name.length<5||widget.pet.name.length==0)
       return false;
     return true;
   }

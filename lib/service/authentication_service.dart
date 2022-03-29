@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:encrypt/encrypt.dart' as encrypt;
-import 'package:equatable/equatable.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -14,11 +13,8 @@ import 'package:petzone/model/LoginRequestData.dart';
 import 'package:path/path.dart' as path;
 
 import '../model/MedicalData.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AuthenticationService {
-  // 3
   Future<String?> signIn(
       {required String email, required String password}) async {
     try {
@@ -180,11 +176,11 @@ class AuthenticationService {
       LoginRequestData loginRequestData,
       String id,
       String description,
-      XFile? pickedfile) async {
+      XFile? pickedFile) async {
     storage = FirebaseStorage.instance;
     String url = '';
-    final String fileName = path.basename(pickedfile!.path);
-    File imageFile = File(pickedfile.path);
+    final String fileName = path.basename(pickedFile!.path);
+    File imageFile = File(pickedFile.path);
     try {
       // Uploading the selected image with some custom meta data
       await storage!.ref('$id/$description').putFile(imageFile);
@@ -438,42 +434,16 @@ class AuthenticationService {
      */
     await users.doc(uid).update({
       'uid': uid,
-      "age": medicalData!.age,
-      "name": medicalData!.name,
-      "passport_ID": medicalData!.passport_ID,
-      "breed": medicalData!.breed,
-      "stersllized": medicalData!.stersllized,
-      "gender": medicalData!.gender,
-      "cat_or_dog": medicalData!.cat_or_dog,
-      "vaccination": medicalData!.vaccinated
+      "age": medicalData.age,
+      "name": medicalData.name,
+      "passport_ID": medicalData.passport_ID,
+      "breed": medicalData.breed,
+      "stersllized": medicalData.stersllized,
+      "gender": medicalData.gender,
+      "cat_or_dog": medicalData.cat_or_dog,
+      "vaccination": medicalData.vaccinated
     });
-    //batch.commit();
 
-/*
-    try {
-     await  users.doc(uid).update({
-         'uid': uid,
-        "age": medicalData!.age,
-        "name": medicalData!.name,
-        "passport_ID": medicalData!.passport_ID,
-        "breed": medicalData!.breed,
-        "stersllized": medicalData!.stersllized,
-        "gender": medicalData!.gender,
-        "cat_or_dog": medicalData!.cat_or_dog,
-        "vaccination": medicalData!.vaccination,
-      }).then((value) {
-        result = true;
-      }).catchError((error) => print("Failed to update user: $error"));
-    }
-    catch(E)
-    {
-      result=false;
-      int xx=1;
-    }
-
-
-
- */
 
     if (medicalData.petImg != null) {
       await uploadFilePet(context, medicalData, uid!, "petImage" + uid!,
@@ -493,8 +463,8 @@ class AuthenticationService {
     String mainUrl = "";
     String EditUrl = "";
     if (medicalData.petImg != null ||
-        medicalData!.injections != null ||
-        medicalData!.paths != null) {
+        medicalData.injections != null ||
+        medicalData.paths != null) {
       String url = "";
       List<Map<String, dynamic>> files = await loadFilesById(uid);
 
@@ -514,19 +484,7 @@ class AuthenticationService {
             } else if (v == "medical_history" + uid!) {
               medicalData.medical_history_url = url;
             } else if (v == "petImage" + uid!) {
-              /*
-              if(ismainUrl)
-                {
-                  mainUrl=url;
-                  ismainUrl=false;
-                }
-              else if(isEdit)
-                {
-                  EditUrl=url;
-                  isEdit=false;
-                }
 
-               */
               medicalData.imgUrl = url;
             }
           }
@@ -546,19 +504,6 @@ class AuthenticationService {
     }
     List<String>? newimg = [];
     if (mainUrl != "" || EditUrl != "") {
-     // i don't understand
-     /* for (int k = 0; k < medicalData.img!.length; k++) {
-        if (medicalData.img![k] == mainUrl) {
-          medicalData.img![k] = EditUrl;
-          newimg.add(medicalData.img![k]);
-        } else if (medicalData.img![k] != mainUrl) {
-          newimg.add(medicalData.img![k]);
-        }
-      }
-      if (newimg.length != 0) {
-        medicalData.img = newimg;
-      }
-      */
     }
     if (await submitPet(uid!, medicalData)) {
       return true;

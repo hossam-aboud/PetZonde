@@ -1063,7 +1063,7 @@ class _CreatePostScreenState extends State<CreateAdoptionScreen> {
   bool validate() {
     if (imagePathList.isEmpty) return false;
 
-    if (imagePathList!.length > 5) return false;
+    if (imagePathList.length > 5) return false;
 
     if (!isVacc && !notVacc) return false;
 

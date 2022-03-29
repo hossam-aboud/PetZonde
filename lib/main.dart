@@ -30,14 +30,15 @@ import 'bloc/lost_and_found/lost_and_found_list_bloc.dart';
 import 'bloc/organization_register_bloc/org_reg_bloc.dart';
 import 'bloc/registerList/register_request_bloc.dart';
 import 'bloc/registerProfile/register_profile_bloc.dart';
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  // If you're going to use other Firebase services in the background, such as Firestore,
-  // make sure you call `initializeApp` before using other Firebase services.
-  await Firebase.initializeApp();
-  print('Handling a background message ${message.messageId}');
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-}
+// Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+//   // If you're going to use other Firebase services in the background, such as Firestore,
+//   // make sure you call `initializeApp` before using other Firebase services.
+//   await Firebase.initializeApp();
+//   print('Handling a background message ${message.messageId}');
+//   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+//
+// }
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -46,8 +47,10 @@ Future<void> main() async {
   runApp(MultiBlocProvider(providers: [
     BlocProvider(
         create: (_) => RegisterRequestBloc(adminRepository: AdminRepository())),
-    BlocProvider(create: (_) => RegisterProfileBloc(adminRepository: AdminRepository())),
-    BlocProvider(create: (_) => orgRegisterBloc(userRepository: UserRepository())),
+    BlocProvider(
+        create: (_) => RegisterProfileBloc(adminRepository: AdminRepository())),
+    BlocProvider(
+        create: (_) => orgRegisterBloc(userRepository: UserRepository())),
     BlocProvider(create: (_) => PetLoverBloc(userRepository: UserRepository())),
     BlocProvider(create: (_) => AuthBloc(authRepository: AuthRepository())),
     BlocProvider(create: (_) => AdoptionPostBloc()),
@@ -56,42 +59,50 @@ Future<void> main() async {
     BlocProvider(create: (_) => LostAndFoundAddBloc()),
     BlocProvider(create: (_) => LostAndFoundListBloc()),
     BlocProvider(create: (_) => HandoverDecisionBloc()),
-    BlocProvider(create: (_) => AdoptRequestBloc(requestRepository: RequestRepository())),
+    BlocProvider(
+        create: (_) =>
+            AdoptRequestBloc(requestRepository: RequestRepository())),
     BlocProvider(create: (_) => AdoptionReqListBloc()),
-    BlocProvider(create: (_) => AdoptDecisionBloc(decisionRepository: DecisionRepository())),
+    BlocProvider(
+        create: (_) =>
+            AdoptDecisionBloc(decisionRepository: DecisionRepository())),
     BlocProvider(create: (_) => PLReqAdoptionBloc(repository: Repository())),
-  BlocProvider(create: (_) => UserReqsListBloc()),
-  BlocProvider(create: (_) => HandoverListBloc()),
-  BlocProvider(create: (_) => HandoverDecisionBloc()),
+    BlocProvider(create: (_) => UserReqsListBloc()),
+    BlocProvider(create: (_) => HandoverListBloc()),
+    BlocProvider(create: (_) => HandoverDecisionBloc()),
     BlocProvider(create: (_) => PlVetRequestListBloc()),
     BlocProvider(
-        create: (_) => AuthenticationBloc(userRepository: userRepository,)..add(AuthenticationStarted()))
+        create: (_) => AuthenticationBloc(
+              userRepository: userRepository,
+            )..add(AuthenticationStarted()))
   ], child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
   final Future<FirebaseApp> fbApp = Firebase.initializeApp();
+
   MyApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'PetZone',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(),
-        home: FutureBuilder(
-          future: fbApp,
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              print("An error has occured ${snapshot.error.toString()}");
-              return const Text("Something went wrong");
-            } else if (snapshot.hasData) {
-              return  WelcomeScreen();
-            } else {
-              return const Center(child: CircularProgressIndicator());
-            }
-          },
-        ));
+      title: 'PetZone',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(),
+      home: FutureBuilder(
+        future: fbApp,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            print("An error has occured ${snapshot.error.toString()}");
+            return const Text("Something went wrong");
+          } else if (snapshot.hasData) {
+            return WelcomeScreen();
+          } else {
+            return const Center(child: CircularProgressIndicator());
+          }
+        },
+      ),
+    );
   }
 }
