@@ -49,3 +49,10 @@ class Org extends User {
         super(uid: uid, name: name, email: email, phone: phone, photo: photo);
 
 }
+
+
+class PetLover extends User {
+  String birth_date , city ;
+  bool petterSetter;
+  PetLover({required String uid, required String name, required String email, required String phone , String? photo , required this.birth_date , required this.petterSetter , required this.city}) : super(uid: uid, name: name, email: email, phone: phone);
+}
